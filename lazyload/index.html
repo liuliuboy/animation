@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>lazy-load</title>
+  <style>
+    .img-box{
+      width: 400px;
+      height: 200px;
+      background-color: #c2c2bf;
+    }
+    .img{
+      width: 400px;
+      height: 200px;
+    }
+  </style>
+</head>
+<body>
+  <div class="image-list-box">
+    <div class="img-box">
+      <img class="img" alt="加载中" data-src="./images/img1.jpg">
+    </div>
+    <div class="img-box">
+      <img class="img" alt="加载中" data-src="./images/img2.jpg">
+    </div>
+    <div class="img-box">
+      <img class="img" alt="加载中" data-src="./images/img3.jpg">
+    </div>
+    <div class="img-box">
+      <img class="img" alt="加载中" data-src="./images/img4.jpg">
+    </div>
+    <div class="img-box">
+      <img class="img" alt="加载中" data-src="./images/img5.jpg">
+    </div>
+    <div class="img-box">
+      <img class="img" alt="加载中" data-src="./images/img6.jpg">
+    </div>
+    <div class="img-box">
+      <img class="img" alt="加载中" data-src="./images/img7.jpg">
+    </div>
+    <div class="img-box">
+      <img class="img" alt="加载中" data-src="./images/img1.jpg">
+    </div>
+    <div class="img-box">
+      <img class="img" alt="加载中" data-src="./images/img2.jpg">
+    </div>
+    <div class="img-box">
+      <img class="img" alt="加载中" data-src="./images/img3.jpg">
+    </div>
+  </div>
+  <script>
+    window.onload = function() {
+      getWin();
+      let better_scroll = throttle2(getWin, 2000);
+      window.addEventListener('scroll', better_scroll);
+    }
+    let viewH = window.innerHeight || document.documentElement.clientHeight;
+    let imgs = document.getElementsByTagName('img');
+    let num = 0;
+
+    /**
+    * 获取窗口的显示高度
+    * 
+    */
+    function getWin() {
+      for (let i = num; i < imgs.length; i++) {
+        const ele = imgs[i];
+        // 窗口可视高度 减去 图片
+        let H = viewH - ele.getBoundingClientRect().top;
+        if (H >= 100) {
+          ele.src = ele.getAttribute('data-src');
+          num = i + 1;
+        }
+      }
+    };
+
+    /**
+     * 事件节流
+     * 用时间作为锁
+     */
+    function throttle(fn, time) {
+      let last = '';
+      return function () {
+        let that = this;
+        let date = +new Date();
+        let args = arguments;
+        if (date - last >= time) {
+          last = date;
+          fn.apply(that, args);
+        }
+      }
+    };
+
+    /**
+    * 事件防抖
+    */
+    function throttle1(fn, time) {
+      let date = '';
+      return function() {
+        let that = this;
+        let args = arguments;
+        if (date) {
+          clearTimeout(date);
+        }
+        date = setTimeout(function() {
+          fn.call(that, args);
+        }, time);
+      }
+    };
+    
+    /**
+    * 事件节流与事件防抖
+    * fn 回调事件 
+    * delay 时间间隔的阈值
+    */
+    function throttle2(fn, delay) {
+      let date = '';
+      let time = '';
+      return function() {
+        let that = this;
+        let neo = +new Date();
+        let args = arguments;
+        if (neo - date < delay) {
+          if (time) {
+            clearTimeout(time);
+          }
+          time = setTimeout(function() {
+            fn.call(that, args);
+          });
+        } else {
+          date = neo;
+          fn.call(that, args);
+        }
+      }
+    }
+  </script>
+</body>
+</html>
