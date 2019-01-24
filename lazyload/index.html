@@ -122,13 +122,13 @@
         let that = this;
         let neo = +new Date();
         let args = arguments;
-        if (neo - date < delay) {
+        if (neo - date > delay) {
           if (time) {
             clearTimeout(time);
           }
           time = setTimeout(function() {
             fn.call(that, args);
-          });
+          }, delay);
         } else {
           date = neo;
           fn.call(that, args);
