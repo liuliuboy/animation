@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>单例模式</title>
+  <style>
+    #modal {
+      height: 200px;
+      width: 200px;
+      line-height: 200px;
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      border: 1px solid black;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <button id="open">打开</button>
+  <button id="close">关闭</button>
+  <script>
+    var Model = function () {
+      var model = null;
+      return function() {
+        if (!model) {
+          model = document.createElement('div');
+          model.id = 'model';
+          model.innerHTML = '我灭霸！一手遮天！';
+          model.style.display = 'none';
+          document.body.appendChild(model);
+        }
+        return model;
+      }
+    }();
+
+    document.getElementById('open').addEventListener('click', function() {
+      let model = new Model();
+      model.style.display = 'block';
+    });
+
+    document.getElementById('close').addEventListener('click',function() {
+      let model = new Model();
+      if (model) {
+        model.style.display = 'none';
+      }
+    })
+
+    /**
+     * 静态方法
+     */
+    class SingDog{
+      show() {
+        console.log('我是一个单例对象');
+      }
+      static getInstance() {
+        if (!SingDog.instance) {
+          SingDog.instance = new SingDog();
+        }
+        return SingDog.instance;
+      }
+    }
+    const s1 = SingDog.getInstance();
+    const s2 = SingDog.getInstance();
+    console.log(s1 === s2, s1);
+
+    /**
+     * 闭包方式
+     */
+    class SingDog1 {
+      show() {
+        console.log('我是另一个单例对象');
+      }
+    }
+    SingDog1.getInstance = (function() {
+      var instance = null;
+      return function () {
+        if (!instance) {
+          instance = new SingDog1();
+        }
+        return instance;
+      }
+    })();
+    const a1 = SingDog1.getInstance();
+    const a2 = SingDog1.getInstance();
+    console.log(a1 === a2);
+
+    /**
+     * 正常操作单例模式
+     */
+    class Storage {
+      static getInstance() {
+        if (!Storage.instance) {
+          Storage.instance = new Storage();
+        }
+        return Storage.instance;
+      }
+      getItem(key) {
+        return localStorage.getItem(key);
+      }
+      setItem(key, value) {
+        return localStorage.setItem(key, value);
+      }
+    }
+
+    /**
+     * 闭包方式操作单例模式
+     */
+    class Storage1 {
+    }
+    Storage1.prototype.getItem = function (name = '') {
+      return localStorage.getItem(name);
+    }
+
+    Storage1.prototype.setItem = function (key, value) {
+      return localStorage.setItem(key, value);
+    }
+
+    Storage1.getInstance = function() {
+      var instance = null;
+      return function () {
+        if (!instance) {
+          instance = new Storage1();
+        }
+        return instance;
+      }
+    }();
+    const storageA1 = Storage1.getInstance();
+    const storageB2 = Storage1.getInstance();
+    storageB2.setItem('name', '刘金泽');
+    console.log(storageA1.getItem('name'));
+    console.log(storageB2.getItem('name'));
+
+
+
+  </script>
+</body>
+</html>
