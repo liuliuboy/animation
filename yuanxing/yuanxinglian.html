@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>原型prototype</title>
+</head>
+<body>
+  <script src="./data.js"></script>
+  <script>
+    class Dog {
+      constructor (name = '', age = '') {
+        this.name = name;
+        this.age = age;
+      };
+
+      eat() {
+        console.log('这小狗真可爱！');
+      }
+    }
+
+    var dog = new Dog();
+    dog.eat();
+
+    // 对象的深拷贝
+    function deepClone(obj = {}) {
+      if (typeof obj !== 'Object') {
+        return obj;
+      }
+      let copy = {};
+      if (obj.constructor == Array) {
+        copy = [];
+      }
+      for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          copy[key] = deepClone(obj[key]);
+        }
+      }
+      return copy;
+    }
+    console.log(deepClone(result));
+  </script>
+</body>
+</html>
