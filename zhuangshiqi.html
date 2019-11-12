@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>装饰器</title>
+</head>
+<style>
+  #modal {
+        height: 200px;
+        width: 200px;
+        line-height: 200px;
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        border: 1px solid black;
+        text-align: center;
+    }
+</style>
+<body>
+  <button id="open">
+    打开
+  </button>
+  <button id="close">
+    关闭
+  </button>
+  <script>
+    var Modal = (function() {
+      var modal = null;
+      return function () {
+        if (!modal) {
+          modal = document.createElement('div');
+          modal.id = 'modal';
+          modal.innerText = '您还未登录';
+          modal.style.display = 'none';
+          document.body.appendChild(modal);
+        }
+        return modal;
+      }
+    })();
+
+    document.getElementById('open').addEventListener('click', function() {
+      let modal = new Modal();
+      modal.style.display = 'block';
+      changeButtonStatus('open');
+    });
+
+    document.getElementById('close').addEventListener('click', function() {
+      let modal = document.getElementById('modal');
+      if (modal) {
+        modal.style.display = 'none';
+        changeButtonStatus('close');
+      }
+    });
+
+
+    function disableButtonText(butStyle) {
+      const openBut = document.getElementById('open');
+      openBut.innerHTML = butStyle == 'open' ? '快去登陆' : '登陆';
+    };
+
+    function disableButton(butStyle) {
+      const openBut = document.getElementById('open');
+      butStyle == 'open' ? openBut.setAttribute('disabled', true) : openBut.removeAttribute('disabled');
+    };
+
+    function changeButtonStatus(butStyle) {
+      disableButtonText(butStyle);
+      disableButton(butStyle);
+    };
+  </script>
+</body>
+</html>
