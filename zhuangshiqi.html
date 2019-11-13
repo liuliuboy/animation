@@ -4,20 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>装饰器</title>
+  <title>装饰器模式</title>
 </head>
 <style>
   #modal {
-        height: 200px;
-        width: 200px;
-        line-height: 200px;
-        position: fixed;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        border: 1px solid black;
-        text-align: center;
-    }
+    height: 200px;
+    width: 200px;
+    line-height: 200px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid black;
+    text-align: center;
+  }
 </style>
 <body>
   <button id="open">
@@ -40,36 +40,66 @@
         return modal;
       }
     })();
+    
+    class OpenBut {
+      onClick() {
+        var modal = Modal();
+        modal.style.display = 'block';
+      }
+    };
+
+    class Decorator{
+      constructor(open_but) {
+        this.openBut = open_but;
+      }
+
+      onClick() {
+        this.openBut.onClick();
+        this.butDisabel();
+      }
+
+      // 禁用open按钮、更改open按钮文字
+      butDisabel() {
+        let openBut = document.getElementById('open');
+        openBut.innerText = '快去登录';
+        openBut.setAttribute('disabled', true);
+      }
+
+    }
+
+    let openButClass = new OpenBut();
+    let decorator = new Decorator(openButClass);
 
     document.getElementById('open').addEventListener('click', function() {
-      let modal = new Modal();
-      modal.style.display = 'block';
-      changeButtonStatus('open');
+      decorator.onClick();
+      // let modal = new Modal();
+      // modal.style.display = 'block';
+      // changeButtonStatus('open');
     });
 
-    document.getElementById('close').addEventListener('click', function() {
-      let modal = document.getElementById('modal');
-      if (modal) {
-        modal.style.display = 'none';
-        changeButtonStatus('close');
-      }
-    });
+    // document.getElementById('close').addEventListener('click', function() {
+    //   let modal = document.getElementById('modal');
+    //   if (modal) {
+    //     modal.style.display = 'none';
+    //     changeButtonStatus('close');
+    //   }
+    // });
 
 
-    function disableButtonText(butStyle) {
-      const openBut = document.getElementById('open');
-      openBut.innerHTML = butStyle == 'open' ? '快去登陆' : '登陆';
-    };
+    // function disableButtonText(butStyle) {
+    //   const openBut = document.getElementById('open');
+    //   openBut.innerHTML = butStyle == 'open' ? '快去登陆' : '登陆';
+    // };
 
-    function disableButton(butStyle) {
-      const openBut = document.getElementById('open');
-      butStyle == 'open' ? openBut.setAttribute('disabled', true) : openBut.removeAttribute('disabled');
-    };
+    // function disableButton(butStyle) {
+    //   const openBut = document.getElementById('open');
+    //   butStyle == 'open' ? openBut.setAttribute('disabled', true) : openBut.removeAttribute('disabled');
+    // };
 
-    function changeButtonStatus(butStyle) {
-      disableButtonText(butStyle);
-      disableButton(butStyle);
-    };
+    // function changeButtonStatus(butStyle) {
+    //   disableButtonText(butStyle);
+    //   disableButton(butStyle);
+    // };
   </script>
 </body>
 </html>
