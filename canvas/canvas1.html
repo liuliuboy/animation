@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>canvas</title>
+  <style>
+    #canDom{
+      background-color: #000;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canDom" width="400px" height="400px"></canvas>
+</body>
+<script>
+  let canvas = document.getElementById('canDom');
+  let cvsCtx = canvas.getContext('2d');
+
+  // 旋转
+  cvsCtx.fillStyle = "#fff";
+  cvsCtx.rotate(20 * Math.PI/180);
+  cvsCtx.fillRect(70, 30, 200, 100);
+
+  // 缩放
+  // cvsCtx.strokeStyle = "#fff";
+  // cvsCtx.strokeRect(5, 10, 50, 30);
+  // cvsCtx.scale(2, 2);
+  // cvsCtx.strokeRect(5, 10, 50, 30);
+  // cvsCtx.scale(2, 2);
+  // cvsCtx.strokeRect(5, 10, 50, 30);
+
+
+  // 颜色渐变
+  // let grd = cvsCtx.createLinearGradient(100, 100, 100, 200);
+  // grd.addColorStop(0, 'pink');
+  // grd.addColorStop(1, 'white')
+  // cvsCtx.fillStyle = grd;
+  // cvsCtx.fillRect(100, 100, 200, 200);
+   
+   // 回执圆形及阴影
+  // cvsCtx.beginPath();
+  // cvsCtx.arc(100, 100, 60, 0, Math.PI * 2);
+  // cvsCtx.closePath();
+  // cvsCtx.shadowBlur = 20;
+  // cvsCtx.shadowColor = '#fff';
+  // cvsCtx.fillStyle = "#fff";
+  // cvsCtx.fill(); 
+</script>
+</html>
