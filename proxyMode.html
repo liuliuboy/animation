@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>代理模式</title>
+</head>
+<body>
+  <div class="title">
+    开发中最常见的四种代理类型：事件代理、虚拟代理、缓存代理和保护代理
+  </div>
+  <div id="father">
+    <a href="#">连接1号</a>
+    <a href="#">连接2号</a>
+    <a href="#">连接3号</a>
+    <a href="#">连接4号</a>
+    <a href="#">连接5号</a>
+  </div>
+  <script>
+    // 事件代理
+    function getClickText() {
+      let father = document.getElementById('father');
+      father.addEventListener('click', (ev) => {
+        let nodeName = ev.target.nodeName;
+        if (nodeName === 'A') {
+          console.log(ev.target.innerText);
+          ev.preventDefault();
+        }
+      })
+    }
+    getClickText();
+
+    // 虚拟代理模式
+    class PreLoadImgage{
+      constructor (imgNode) {
+        this.imgNode = imgNode;
+      }
+      // 操作img节点的src属性
+      setImgSrc (imgUrl = '') {
+        this.imgNode.src = imgUrl;
+      }
+    }
+
+    class ProxyImgage {
+      // 占位符的url地址
+      static LOADING_URL = 'xxxxxx';
+      constructor(targetImage) {
+        // 目标Imgage即PreLoadImgage实例
+        this.targetImage = targetImage;
+      }
+
+      // 该方法主要操作虚拟Image,完成加载
+      setSrc(targetUrl) {
+        // 真实img节点初始化展示的是一个占位符
+        this.targetImage.setSrc(ProxyImgage.LOADING_URL);
+        // 创建一个加载图片的虚拟Image实例
+        const virtualImage = new Image();
+        //
+        virtualImage.onload = () => {
+          this.targetImage.setSrc(targetUrl);
+        }
+        virtualImage.src = targetUrl;
+      }
+    }
+  </script>
+</body>
+</html>
