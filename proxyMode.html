@@ -56,13 +56,16 @@
         this.targetImage.setSrc(ProxyImgage.LOADING_URL);
         // 创建一个加载图片的虚拟Image实例
         const virtualImage = new Image();
-        //
+        // 监听虚拟Image图片的加载情况，完成加载后设置真实的img节点图片路径
         virtualImage.onload = () => {
           this.targetImage.setSrc(targetUrl);
         }
+        // 设置虚拟Image的图片路径
         virtualImage.src = targetUrl;
       }
     }
+
+
   </script>
 </body>
 </html>

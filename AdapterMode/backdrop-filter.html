@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>backdrop-filter</title>
+</head>
+<style>
+  *{
+    padding: 0;
+    margin: 0;
+  }
+  html,body{
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  .dialog{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .backdrop-box{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    -webkit-backdrop-filter: blur(5px);
+    filter: blur(5px);
+    filter: opacity(25%);
+    background-color: #B7CBE8;
+    z-index: 1;
+  }
+  .dialog-box{
+    position: absolute;
+    width: 550px;
+    height: 400px;
+    background-color: #fff;
+    text-align: center;
+    z-index: 1;
+  }
+</style>
+<body>
+  <button id="open">打开弹窗</button>
+  <div class="backdrop-box">
+  </div>
+  <div class="dialog">
+    <div class="dialog-box">
+      <div class="dialog-conter">
+        欢迎打开弹窗
+      </div>
+      <div class="but-box">
+        <button class="close-but">关闭</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
