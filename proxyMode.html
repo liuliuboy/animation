@@ -65,7 +65,40 @@
       }
     }
 
+    // 缓存代理模式
+    /**
+     * 传进来的所有参数进行进行求和运算
+     */
+    const addAll = function() {
+      let result = 0;
+      let len = arguments.length;
+      for (let k = 0; k < len; k++) {
+        const item = arguments[k];
+        result += item;
+      }
+      return result;
+    }
 
+    /**
+     * 为求和方法创建的代理
+     */
+    const proxAddAll = (function() {
+      // 缓存变量
+      const resultCache = {};
+      return function() {
+        const args = Array.prototype.join.call(arguments, ',');
+        console.log(args, '----------'); // 1,2,3,4,5,6,7,3,4,8,10,11
+        // 判断缓存变量中是否存在对应的计算结果
+        if (args in resultCache) {
+          return resultCache[args]; // 64
+        }
+        return resultCache[args] = addAll(...arguments);
+      }
+    })();
+    console.log(proxAddAll(1,2,3,4,5,6,7,3,4,8,10,11));
+    console.log(proxAddAll(1,2,3,4,5,6,7));
+    console.log(proxAddAll(1,2,3,4,5,6,7,3,4,8,10,11));
+    console.log(proxAddAll(1,2,3,4,5,6,7));
   </script>
 </body>
 </html>
